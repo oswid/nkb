@@ -448,6 +448,7 @@ enum custom_keycodes {
   MY_ALT,
   MY_WIN,
   WINC_DQT,
+  SP_CTL,
   
   MY_JMP,
   MY_PJMP,
@@ -502,7 +503,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   T_ESC,   WINC_DQT, KC_COMM, KC_DOT,  KC_P,    KC_Y,         KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_DEL, \
   MY_RUSL, KC_A,     KC_O,    KC_E,    KC_U,    KC_I,         KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    CTL_T(KC_ENT), \
   XXXXXXX, WIN_SC,   KC_Q,    KC_J,    KC_K,    KC_X,         KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    XXXXXXX, \
-  XXXXXXX, XXXXXXX,  ADJUST,  MY_CTRL, MY_LOW,  KC_LSFT,      Sp_Ctr ,  MY_RAISE, MY_ALT, XXXXXXX, XXXXXXX, XXXXXXX \
+  XXXXXXX, XXXXXXX,  ADJUST,  MY_CTRL, MY_LOW,  KC_LSFT,      SP_CTL ,  MY_RAISE, MY_ALT, XXXXXXX, XXXXXXX, XXXXXXX \
 ),
 
 /* Russian
@@ -523,7 +524,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   T_ESC,   WIN_J,    RU_TS,   KC_E,    RU_K,    RU_JE,      RU_N,    RU_G,    RU_SH,   RU_SHCH, RU_Z,    RU_H, \
   MY_ENGG, RU_F,    RU_Y,    RU_V,    RU_A,    RU_P,        RU_R,    RU_O,    RU_L,    RU_D,    RU_ZH,   KC_ENT, \
   XXXXXXX,  WIN_JA,  RU_CH,   RU_S,    RU_M,    RU_I,        RU_T,    RU_SOFT, RU_B,    RU_JU,   RU_E,    RU_JO, \
-  XXXXXXX,  XXXXXXX, ADJUST,  MY_CTRL, MY_LOW,  KC_LSFT,     Sp_Ctr ,  MY_RAISE,A_HD,    XXXXXXX, XXXXXXX, XXXXXXX \
+  XXXXXXX,  XXXXXXX, ADJUST,  MY_CTRL, MY_LOW,  KC_LSFT,     SP_CTL ,  MY_RAISE,A_HD,    XXXXXXX, XXXXXXX, XXXXXXX \
 ),
 
 /* ADD
@@ -853,13 +854,14 @@ bool key_layer(uint16_t keycode, keyrecord_t *record){
         if (press_I){ \
             press_I = false; \
             layer_off(_EDITOR); \
-			rgblight_disable();\
-            if (changeLang){ \
-				default_layer_set(_CYRILIC);\
-				register_code(KC_RSFT);\
-				unregister_code(KC_RSFT);\
-                changeLang = false; \
-            } \
+	    rgblight_disable();\
+            if(changeLang){\
+       	        currentLayer = 2;\
+      	        layer_on(2);\
+	        _CHANGE_LANG;\
+	        changeLang=false;\
+	        oldLayer=0;\
+            }\
         } \
     return false; \
     } break; \
@@ -932,6 +934,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	unregister_code(KC_L);
 	  }
       return false;
+
+
+
+      case SP_CTL: 
+         if(record->event.pressed) { 
+		my_hash_timer = timer_read();
+	     
+	     if(currentLayer ==2){ 
+		_CHANGE_LANG;
+          	layer_off(2); 
+          	default_layer_set(0);
+		 oldLayer=2;
+		 changeLang=true;}
+		register_code(KC_LCTL);
+        }else{
+          unregister_code(KC_LCTL);
+          
+	  if(changeLang){
+	      layer_on(2);
+	      _CHANGE_LANG;
+	      changeLang=false;
+	      oldLayer=0;}
+
+          if (timer_elapsed(my_hash_timer) < TAPPING_TERM) {
+            tap_code(KC_SPC); 
+          }
+	}
+        return false; 
 	  
 	 case MY_PJMP: //projectile-jump
       if (record->event.pressed) {
@@ -1057,7 +1087,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 
     case ADJUST:
-      if (record->event.pressed) {
+      if (record->event.pressed) { 
         layer_on(_ADJUST);
       } else {
         layer_off(_ADJUST);
@@ -1070,13 +1100,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
      case __I:
           if (record->event.pressed){
-			   key1 = 15;
-			   press_I = true;
-              if (currentLayer == 0){
-				  rgblight_enable();
-                  rgblight_setrgb(RGB_YELLOW);
-				  layer_on(_EDITOR);
-			  }else{}
+            //if(currentLayer ==2){ 
+		//_CHANGE_LANG;
+          	//layer_off(2); 
+          	//default_layer_set(0);
+		 //oldLayer=2;
+		 //changeLang=true;
+		 //currentLayer = 0;
+           //}
+	         key1 = 15;
+	         press_I = true;
+                 if (currentLayer == 0){
+		     rgblight_enable();
+                     rgblight_setrgb(RGB_YELLOW);
+	       	     layer_on(_EDITOR);}
+	}else{
+	    if(changeLang){
+       	    currentLayer = 2;
+      	    layer_on(2);
+	    _CHANGE_LANG;
+	    changeLang=false;
+	    oldLayer=0;}
           }
           return false;
           break;
