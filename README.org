@@ -11,7 +11,6 @@ Nyquist keyboard
 2) hot_shift
 3) delete XXX
 4) why start dvorak?
-5) ctrl_space change lang
 6) " to '
  
 
