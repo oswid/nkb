@@ -9,7 +9,6 @@ Nyquist keyboard
    
 1) language_change -> _I
 2) hot_shift
-3) delete XXX
 4) why start dvorak?
 6) " to '
  
