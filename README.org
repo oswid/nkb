@@ -1,8 +1,11 @@
+Nyquist keyboard
+
+
 [[./img/layout_1.jpg]]
 [[./img/layout_2.jpg]]
 
 
-Nyquist keyboard
+
 
 
 ** ToDo List 
