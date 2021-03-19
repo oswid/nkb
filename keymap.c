@@ -314,16 +314,16 @@ extern keymap_config_t keymap_config;
 
 #define A_HD  ALT_T(RU_HARD)
 
-#define AL_WIN A(KC_APP) 
-#define CT_WIN C(KC_APP) 
-#define SH_WIN S(KC_APP) 
+#define AL_WIN A(KC_LGUI) 
+#define CT_WIN C(KC_LGUI) 
+#define SH_WIN S(KC_LGUI) 
 
-#define T_ESC   LT(_TELHK, KC_ESC)
+#define T_ESC   LT(_CTRLS, KC_ESC)
 #define LOW_TB   LT(_LOWER, KC_TAB)
-#define WIN_JA   LT(_WIN, RU_JA)
-#define WIN_SC    LT(_WIN, KC_SCLN)
-#define WIN_QT   LT(_WINC, KC_DOUBLE_QUOTE)
-#define WIN_J   LT(_WINC, RU_J)
+#define WIN1_JA   LT(_WIN1, RU_JA)
+#define WIN1_SC    LT(_WIN1, KC_SCLN)
+#define WIN2_QT   LT(_WIN2, KC_DOUBLE_QUOTE)
+#define WIN2_J   LT(_WIN2, RU_J)
 #define OFF_DS   RGUI(KC_L) // off display
 #define POW_OF   KC_PWR // off pc
 
@@ -336,6 +336,7 @@ extern keymap_config_t keymap_config;
 
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
+#define OOOOOOO KC_NO
 
 #define KC_CIRK S(KC_6)
 #define KC_DOLR S(KC_4)
@@ -412,30 +413,29 @@ extern keymap_config_t keymap_config;
 
 #define _DVORAK 0
 #define _EDITOR 1 
-#define _CYRILIC 2
+#define _CYRILLIC 2
 #define _LOWER 10
 #define _RAISE 4
-#define _WIN 5
-#define _WINC 8
-#define _ADD 3
-#define _DVO 6 //_DVO
-#define _TELHK 9
-#define _ELOW 7
+#define _WIN1 5
+#define _WIN2 8
+#define _FF 3
+#define _CTRLS 6
+#define _ENUM 7
 
 
 #define _ADJUST 16
 
 enum custom_keycodes {
   DVORAK = SAFE_RANGE,
-  CYRILIC,
-  ADD,
+  CYRILLIC,
+  FF,
   LOWER,
   RAISE,
   WIN,
   ADJUST,
   DVO,
   EDITOR,
-  ELOW,
+  ENUM,
 
   MY_LANG,
   MY_ENGG,
@@ -447,7 +447,7 @@ enum custom_keycodes {
   MY_CTRL,
   MY_ALT,
   MY_WIN,
-  WINC_DQT,
+  WIN2_DQT,
   SP_CTL,
   
   MY_JMP,
@@ -484,264 +484,92 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-/* Dvorak
-         * ,------------------------------------------      -----------------------------------------.
-         * |      |   F2 |  F3  |  F4  |  F5  |  F6  |      |  F7 |  F8  |  F9  |  F10 |  F11 | F12  |
-         * |------+------+------+------+------+------+      ------+------+------+------+------+------|
-         * |  Esc |   '  |   ,  |   .  |   P  |   Y  |      |  F  |   G  |   C  |   R  |   L  | Del  |
-         * |------+------+------+------+------+-------      ------+------+------+------+------+------|
-         * | LANG |   A  |   O  |   E  |   U  |   I  |      |  D  |   H  |   T  |   N  |   S  |Enter |
-         * |------+------+------+------+------+------|      ------+------+------+------+------+------|
-         * |EDITOR|   ;  |   Q  |   J  |   K  |   X  |      |  B  |   M  |   W  |   V  |   Z  |      |
-         * |------+------+------+------+------+------+      ------+------+------+------+------+------|
-         * | WIN  |      |Adjust|Low_TB| Shift|Space |      |Space|RIS_BK| Alt  |      |      |      |
-         * `------------------------------------------      -----------------------------------------'
- */
-
 [_DVORAK] = LAYOUT( \
-  XXXXXXX, KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,        KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12, \
-  T_ESC,   WINC_DQT, KC_COMM, KC_DOT,  KC_P,    KC_Y,         KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_DEL, \
+  KC_F1,   KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,        KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12, \
+  T_ESC,   WIN2_DQT, KC_COMM, KC_DOT,  KC_P,    KC_Y,         KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_DEL, \
   MY_RUSL, KC_A,     KC_O,    KC_E,    KC_U,    KC_I,         KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    CTL_T(KC_ENT), \
-  XXXXXXX, WIN_SC,   KC_Q,    KC_J,    KC_K,    KC_X,         KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    XXXXXXX, \
+  XXXXXXX, WIN1_SC,   KC_Q,    KC_J,    KC_K,    KC_X,         KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    XXXXXXX, \
   XXXXXXX, XXXXXXX,  ADJUST,  MY_CTRL, MY_LOW,  KC_LSFT,      SP_CTL ,  MY_RAISE, MY_ALT, XXXXXXX, XXXXXXX, XXXXXXX \
 ),
 
-/* Russian
-         * ,------------------------------------------      ,-----------------------------------------.
-         * |      |   F2 |  F3  |  F4  |  F5  |  F6  |      |   F7 |  F8  |  F9  |  F10 |  F11 | F12  |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |  Esc |   Й  |  Ц   |  У   |   К  |  Е   |      |   Н  |   Г  |  Ш   |  Щ   |  З   |  Х   |
-         * |------+------+------+------+------+-------      |------+------+------+------+------+------|
-         * | LANG |   Ф  |  Ы   |  В   |  А   |  П   |      |   Р  |  О   |  Л   |  Д   |  Ж   |  Ъ   |
-         * |------+------+-----+------+------+-------|      |------+------+------+------+------+------|
-         * |EDITOR|   Я  |  Ч   |  С   |  М   |  И   |      |   Т  |  Ь   |  Б   |  Ю   |  Э   |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      | ADJ  |Low_TB|Shift |Space |      |Space |RIS_BK| Alt  |  Ё   |      |      |
-         * `------------------------------------------      '-----------------------------------------'
- */
-[_CYRILIC] = LAYOUT( \
-  XXXXXXX, KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,       KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12, \
-  T_ESC,   WIN_J,    RU_TS,   KC_E,    RU_K,    RU_JE,      RU_N,    RU_G,    RU_SH,   RU_SHCH, RU_Z,    RU_H, \
+[_CYRILLIC] = LAYOUT( \
+  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,       KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12, \
+  T_ESC,   WIN2_J,    RU_TS,   RU_U,    RU_K,    RU_JE,      RU_N,    RU_G,    RU_SH,   RU_SHCH, RU_Z,    RU_H, \
   MY_ENGG, RU_F,    RU_Y,    RU_V,    RU_A,    RU_P,        RU_R,    RU_O,    RU_L,    RU_D,    RU_ZH,   KC_ENT, \
-  XXXXXXX,  WIN_JA,  RU_CH,   RU_S,    RU_M,    RU_I,        RU_T,    RU_SOFT, RU_B,    RU_JU,   RU_E,    RU_JO, \
+  XXXXXXX,  WIN1_JA,  RU_CH,   RU_S,    RU_M,    RU_I,        RU_T,    RU_SOFT, RU_B,    RU_JU,   RU_E,    RU_JO, \
   XXXXXXX,  XXXXXXX, ADJUST,  MY_CTRL, MY_LOW,  KC_LSFT,     SP_CTL ,  MY_RAISE,A_HD,    XXXXXXX, XXXXXXX, XXXXXXX \
 ),
 
-/* ADD
-         * ,------------------------------------------      -----------------------------------------.
-         * |      |      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      -------+------+------+------+------+------|
-         * |      |      |  S-W | C-W  | A-W  |TURN_L|      |      |  F7  |  F8  |  F9  | F10  |      |
-         * |------------------------------------------      ------------------------------------------|
-         * | LANG |      | Shift| Ctrl | Alt  | Win  |      |      |  F1  |  F2  |  F3  | F11  |      |
-         * |------+------+------+------+------+------+      -------+------+------+------+------+------|
-         * |      |      |      |      |      |      |      |      |  F4  |  F5  |  F6  | F12  |      |
-         * |------+------+------+------+------+-------      -------+------+------+------+------+------|
-         * |      |      |      |      |      |      |      |      |      |      |      |      |      |
-         * `------------------------------------------      -----------------------------------------'
- */
-[_ADD] = LAYOUT( \
+[_FF] = LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  XXXXXXX, XXXXXXX, XXXXXXX, MY_RUSL, MY_ENGG, XXXXXXX,     XXXXXXX, KC_F7,   KC_F8,   KC_F9,   KC_F10,  XXXXXXX,\
-  MY_LANG, XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_APP,      XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F11,  XXXXXXX,\
-  MY_RUSL, XXXXXXX, SH_WIN,  CT_WIN,  AL_WIN,  XXXXXXX,     XXXXXXX, KC_F4,   KC_F5,   KC_F6,   KC_F12,  XXXXXXX,\
-  MY_ENGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, KC_F7,   KC_F8,   KC_F9,   KC_F10,  XXXXXXX,\
+  OOOOOOO, XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,     XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F11,  XXXXXXX,\
+  XXXXXXX, XXXXXXX, SH_WIN,  CT_WIN,  AL_WIN,  XXXXXXX,     XXXXXXX, KC_F4,   KC_F5,   KC_F6,   KC_F12,  XXXXXXX,\
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
 ),
 
-
-/* Lower
-         * ,------------------------------------------      ,----------------------------------------.
-         * | Off-d|      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+-------      |------+------+------+------+------+------|
-         * |  Bef | Next |  ,   |   .  |V-down| V-up |      |   :  |   7  |   8  |   9  |   -  |  Del |
-         * |------+------+------+------+------+-------      |------+------+------+------+------+------|
-         * | Lang | Left | Right| Down |  Up  | Close|      |   0  |   1  |   2  |   3  |   =  |  Ent |
-         * |------+------+------+------+------+------|      |------+------+------+------+------+------|
-         * | Pr-Sc| Copy |Paste |CS_TAB|CT_TAB| Al-z |      |   /  |   4  |   5  |   6  |   +  |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      |      |      |   X  |      |      | Space|  Bsk |   *  |      |      |      |
-         * `------------------------------------------      -----------------------------------------'
- */
 [_LOWER] = LAYOUT( \
   OFF_DS,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
   AU_PREV, AU_NEXT, KC_COMM, KC_DOT,  AU_VOLD, AU_VOLU,     KC_COLN, KC_7,    KC_8,    KC_9,    KC_MINS, KC_DEL, \
-  MY_RUSL, KC_LEFT, KC_RGHT, KC_DOWN, KC_UP,   __I,         KC_0,    KC_1,    KC_2,    KC_3,    KC_EQL,  KC_ENT, \
+  XXXXXXX, KC_LEFT, KC_RGHT, KC_DOWN, KC_UP,   __I,         KC_0,    KC_1,    KC_2,    KC_3,    KC_EQL,  KC_ENT, \
   MY_SCRN, CT_C,    CT_V,    CS_TAB,  CT_TAB,  AL_Z,	    KC_SLSH, KC_4,    KC_5,    KC_6,    KC_PPLS, XXXXXXX,\
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     Sp_Ctr ,   KC_BSPC, KC_PAST, XXXXXXX, XXXXXXX, XXXXXXX \
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OOOOOOO, XXXXXXX,     SP_CTL ,   KC_BSPC, KC_PAST, XXXXXXX, XXXXXXX, XXXXXXX \
 ),
-
-
-/* Raise
-         * ,------------------------------------------      -----------------------------------------.
-         * |      |      |      |      |      |      |     |       |      |      |      |      |      |
-         * |------+------+------+------+------+-------     | ------+------+------+------+------+------|
-         * |   >  |   '  |   ,  |   .  |   #  |   "  |     |    |  |   _  |BaskSL|      |  Ins |      |
-         * |------+------+------+------+------+-------     | ------+------+------+------+------+------|
-         * |   <  |   $  |   %  |   !  |   ?  |   &  |     |    ^  |   (  |   )  |   [  |   ]  |  Ent |
-         * |------+------+------+------+------+------|     | ------+------+------+------+------+------|
-         * |      |   ;  |   `  |   ~  |   @  |      |     |  Mute |   {  |   }  | Bcsp |CT_TAB|      |
-         * |------+------+------+------+------+------+     | ------+------+------+------+------+------|
-         * |      |      |      |      |      |Space |     |       |   X  |      |      |      |      |
-         * `-----------------------------------------      |------------------------------------------'
- */
 
 [_RAISE] = LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  KC_GT,   KC_QUOT, KC_COMM, KC_DOT,  MY_JMP,  KC_HASH, 	KC_INS,  XXXXXXX, KC_UNDS, KC_PIPE, KC_BSLS, XXXXXXX, \
+  KC_GT,   KC_QUOT, KC_COMM, KC_DOT,  MY_JMP,  KC_HASH,     KC_INS,  XXXXXXX, KC_UNDS, KC_PIPE, KC_BSLS, XXXXXXX, \
   KC_LT,   KC_DOLR, KC_PERC, KC_EXLM, KC_QUES, KC_AMPR,     KC_CIRK, KC_LPRN, KC_RPRN, KC_LBRC, KC_RBRC, KC_ENT, \
   XXXXXXX, KC_SCLN, KC_GRV,  KC_TILD, KC_AT,   KC_GRV,	    AU_MUTE, KC_LCBR, KC_RCBR, KC_BSPC, MY_PJMP, XXXXXXX, \
-  XXXXXXX, XXXXXXX, XXXXXXX, MY_RUSL, MY_ENGG, KC_LSFT,	    Sp_Ctr ,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LSFT,	    SP_CTL , OOOOOOO, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
 ),
 
-/* Adjust (Lower + raise)
-         * ,------------------------------------------      ,-----------------------------------------.
-         * |      |      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |+LIGHT| reset|rgb tg|rgb md|hue up|hue dn|      |Sat Up|Sat Dn|Val Up|Val Dn|Pow_of|      |
-         * |------+------+------+------+------+-------      |------+------+------+------+------+------|
-         * |-LIGHT|      |      |      |      |TURN_L|      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------|      |------+------+------+------+------+------|
-         * |      |      |      |      |      |      |      | DVO  |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      |  X   |      |      |      |      |      |      |      |      |      |      |
-         * `------------------------------------------      '-----------------------------------------'
- */
 [_ADJUST] =  LAYOUT( \
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET,	    POW_OF, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  BL_INC,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  BL_INC,  RESET,   RGB_TOG, RGB_MOD, RGB_HUD, RGB_HUI,     RGB_SAD, RGB_SAI, RGB_VAD, RGB_VAI, POW_OF,  XXXXXXX,\
-  MY_RUSL,  XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG, TURN_L,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX\
+  XXXXXXX, XXXXXXX, OOOOOOO, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX\
 ),
 
-
-/* Win
-         * ,------------------------------------------      ,-----------------------------------------.
-         * |      |      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      |   9  |  8   |   7  | H-all|      |      |      |      |      |      |      |
-         * |------+------+------+------+------+-------      |------+------+------+------+------+------|
-         * |      |      |   3  |  2   |   1  |  0   |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------|      |------+------+------+------+------+------|
-         * |      |  Х   |   6  |  5   |   4  |Right |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      |      | Left | Down |  Up  |      |      |      |      |      |      |      |
-         * `------------------------------------------      '-----------------------------------------'
- */
-[_WIN] =  LAYOUT( \
+[_WIN1] =  LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   XXXXXXX, XXXXXXX, WN_9,    WN_8,    WN_7,    WN_D,  	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  MY_RUSL, XXXXXXX, WN_3,    WN_2,    WN_1,    WN_0,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  XXXXXXX, XXXXXXX, WN_6,    WN_5,    WN_4,    WN_RGHT,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  XXXXXXX, XXXXXXX, WN_3,    WN_2,    WN_1,    WN_0,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  XXXXXXX, OOOOOOO, WN_6,    WN_5,    WN_4,    WN_RGHT,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   XXXXXXX, XXXXXXX, XXXXXXX, WN_LEFT, WN_DOWN, WN_UP,       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
 ),
 
-
-/* Win-custom
-         * ,------------------------------------------      ,-----------------------------------------.
-         * |      |      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |  X   |   9  |  8   |   7  | H-all|      |      |      |      |      |      |      |
-         * |------+------+------+------+------+-------      |------+------+------+------+------+------|
-         * |      |      |   3  |  2   |   1  | Hide |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------|      |------+------+------+------+------+------|
-         * |      |      |   6  |  5   |   4  |Right |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      |      | Left | Down |  Up  |      |      |      |      |      |      |      |
-         * `------------------------------------------      '-----------------------------------------'
- */
-[_WINC] =  LAYOUT( \
+[_WIN2] =  LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  XXXXXXX, XXXXXXX, CW_9,    CW_8,    CW_7,    WN_D,  	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  MY_RUSL, XXXXXXX, CW_3,    CW_2,    CW_1,    CW_0,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  XXXXXXX, OOOOOOO, CW_9,    CW_8,    CW_7,    WN_D,  	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  XXXXXXX, XXXXXXX, CW_3,    CW_2,    CW_1,    CW_0,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   XXXXXXX, XXXXXXX, CW_6,    CW_5,    CW_4,    WN_RGHT,     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   XXXXXXX, XXXXXXX, XXXXXXX, WN_LEFT, WN_DOWN, WN_UP,       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
 ),
-/* Dvorak for keyspeed
-         * ,------------------------------------------      -----------------------------------------.
-         * |      |   F2 |  F3  |  F4  |  F5  |  F6  |      |  F7 |  F8  |  F9  |  F10 |  F11 | F12  |
-         * |------+------+------+------+------+------+      ------+------+------+------+------+------|
-         * |  Esc |   '  |   ,  |   .  |   P  |   Y  |      |  F  |   G  |   C  |   R  |   L  | Del  |
-         * |------+------+------+------+------+-------      ------+------+------+------+------+------|
-         * | LANG |   A  |   O  |   E  |   U  |   I  |      |  D  |   H  |   T  |   N  |   S  |Enter |
-         * |------+------+------+------+------+------|      ------+------+------+------+------+------|
-         * | WIN  |   ;  |   Q  |   J  |   K  |   X  |      |  B  |   M  |   W  |   V  |   Z  |      |
-         * |------+------+------+------+------+------+      ------+------+------+------+------+------|
-         * |MY_win|      |Adjust|Low_TB| Shift|Space |      |Space|RIS_BK| Alt  |      |      |      |
-         * `------------------------------------------      -----------------------------------------'
- */
-
-[_DVO] = LAYOUT( \
-  XXXXXXX, KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,        KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12, \
-  T_ESC,   WINC_DQT,  KC_COMM, KC_DOT,  KC_P,    KC_Y,         KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_DEL, \
-  MY_RUSL, KC_A,    KC_O,    KC_E,    KC_U,    KC_I,         KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_ENT, \
-  EDITOR,  WIN_SC,  KC_Q,    KC_J,    KC_K,    KC_X,         KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    XXXXXXX, \
-  MY_RUSL, XXXXXXX, ADJUST,  MY_CTRL, MY_LOW,  Sp_lSs,       Sp_Ctr ,   MY_RAISE,MY_ALT,  XXXXXXX, XXXXXXX, XXXXXXX \
-),
-
-/* Editor
-         * ,------------------------------------------      ,-----------------------------------------.
-         * |      |      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |  ESC |      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+-------      |------+------+------+------+------+------|
-         * | LANG |      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------|      |------+------+------+------+------+------|
-         * |   X  |      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      |      |      | ELOW |      |      |      |      |      |      |      |      |
-         * `------------------------------------------      '-----------------------------------------'
- */
 
 [_EDITOR] =  LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   KC_ESC,  _QUOTE,  _COMMA,  _DOT,    _P,      _Y,  	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  MY_RUSL, _A,      _O,      _E,      _U,      _I,   	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  MY_RUSL, _SEMCLN, _Q,      _J,      _K,      _X,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  MY_ENGG, XXXXXXX, XXXXXXX, XXXXXXX, ELOW,    XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX\
+  XXXXXXX, _A,      _O,      _E,      _U,      _I,   	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  XXXXXXX, _SEMCLN, _Q,      _J,      _K,      _X,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, ENUM,    XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX\
 ),
  
-
-/* Low for editor layout
-         * ,------------------------------------------      ,-----------------------------------------.
-         * |      |      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |  Del |  -   |   9  |  8   |   7  | Bcspc|      |      |      |      |      |      |      |
-         * |------+------+------+------+------+-------      |------+------+------+------+------+------|
-         * |  Ent |  =   |   3  |  2   |   1  |  0   |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------|      |------+------+------+------+------+------|
-         * |  *   |  +   |   6  |  5   |   4  |  /   |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      |      |      |   X  |      |      |      |      |      |      |      |      |
-         * `------------------------------------------      '-----------------------------------------'*
- */
-[_ELOW] =  LAYOUT( \
+[_ENUM] =  LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   KC_DEL,  KC_MINS, KC_9,     KC_8,   KC_7,    KC_BSPC,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   KC_ENT,  KC_EQL,  KC_3,     KC_2,   KC_1,    KC_0,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   KC_PAST, KC_PPLS, KC_6,     KC_5,   KC_4,    KC_SLSH,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX\
+  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,OOOOOOO, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX\
 ),
 
-/* Low for Telegram and orther Hotkeys
-         * ,------------------------------------------      ,-----------------------------------------.
-         * |      |      |      |      |      |      |      |      |      |      |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |   X  |      |      |H-Lig | Cut  |      |      |      |      |      |  D1W |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      |      | Down | Up   |      |      |      |   1  |  2   |  3   |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      |      |      |      |      |      |      |   4  |  5   |      |      |      |
-         * |------+------+------+------+------+------+      |------+------+------+------+------+------|
-         * |      |      |      |      |      |      |      |      |      |      |      |      |      |
-         * `------------------------------------------      '-----------------------------------------'
- */
-[_TELHK] =  LAYOUT( \
+[_CTRLS] =  LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,	    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  XXXXXXX, XXXXXXX, A_E,     CT_A,    CT_X,    A_G,	    A_I,     CT_7,    CT_8,    CT_9,    CT_BSPC, A_M,\
+  OOOOOOO, XXXXXXX, A_E,     CT_A,    CT_X,    A_G,	    A_I,     CT_7,    CT_8,    CT_9,    CT_BSPC, A_M,\
   MY_RUSL, XXXXXXX, A_F,     CT_DOWN, CT_UP,   A_H,	    C(KC_K), CT_1,    CT_2,    CT_3,    A_K,     A_N,\
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, A_Q,	    A_J,     CT_4,    CT_5,    CT_6,    A_L,     A_O,\
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, A_D,     A_C,	    A_A,     A_B,     A_P,     XXXXXXX, XXXXXXX, XXXXXXX\
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, A_D,     A_C,	    A_A,     A_B,     A_P,     XXXXXXX, XXXXXXX, XXXXXXX \
 )
 
 };
@@ -1024,9 +852,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if(record->event.pressed) {	
 			rgblight_disable();
 			my_hash_timer = timer_read();
-			layer_on(_ADD);
+			layer_on(_FF);
         }else {
-          layer_off(_ADD); 
+          layer_off(_FF); 
 		  if (timer_elapsed(my_hash_timer) < TAPPING_TERM) { 
 			 
 			 
@@ -1035,7 +863,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 				register_code(KC_RCTL);
 				unregister_code(KC_RCTL);
 				currentLayer = 0;
-				layer_off(_CYRILIC);
+				layer_off(_CYRILLIC);
 				default_layer_set(_DVORAK);
 				backlight_disable();
 			 } 
@@ -1048,16 +876,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if(record->event.pressed) {	
 			rgblight_disable();
 			my_hash_timer = timer_read();
-          layer_on(_ADD);
+          layer_on(_FF);
         }else {
-          layer_off(_ADD);
+          layer_off(_FF);
           if (timer_elapsed(my_hash_timer) < TAPPING_TERM) {			
 			if (currentLayer == 0) {
 				register_code(KC_RSFT);
 				unregister_code(KC_RSFT);	
 				currentLayer = 2;
-				layer_on(_CYRILIC);
-				default_layer_set(_CYRILIC);
+				layer_on(_CYRILLIC);
+				default_layer_set(_CYRILLIC);
 				backlight_level(3);
 			}
 		}
@@ -1068,12 +896,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 		
 		
-	 case WINC_DQT: 
+	 case WIN2_DQT: 
         if(record->event.pressed) {
           my_hash_timer = timer_read();
-          layer_on(_WINC);
+          layer_on(_WIN2);
        }else {
-          layer_off(_WINC);
+          layer_off(_WIN2);
           if (timer_elapsed(my_hash_timer) < TAPPING_TERM) {
 
                   register_code(KC_LSFT);
